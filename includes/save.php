@@ -118,7 +118,7 @@ add_action('save_post', function ($post_id, $post, $update) {
     }
 
     //video conferencing info
-    if ($valid_conference_url && (!$update || strcmp($old_meeting->conference_url, $valid_conference_url) !== 0)) {
+    if (!$update || @strcmp($old_meeting->conference_url, $valid_conference_url) !== 0) {
         $changes[] = 'conference_url';
         if (empty($valid_conference_url)) {
             delete_post_meta($post->ID, 'conference_url');
@@ -403,7 +403,7 @@ add_action('save_post', function ($post_id, $post, $update) {
 
     //loop through and validate each field
     foreach ($tsml_contact_fields as $field => $type) {
-        if (!$update || strcmp($old_meeting->{$field}, $_POST[$field]) !== 0) {
+        if (!$update || @strcmp($old_meeting->{$field}, $_POST[$field]) !== 0) {
             $changes[] = $field;
         }
         if (empty($_POST[$field])) {
